@@ -794,6 +794,251 @@ input[type="range"]:disabled {
   background: var(--accent-subtle);
 }
 
+#kmeans .metric-strip {
+  grid-template-columns: repeat(6, minmax(0, 1fr));
+}
+
+.kmeans-plot {
+  display: block;
+  width: 100%;
+  height: 460px;
+}
+
+.kmeans-grid-line {
+  stroke: #e8e8e4;
+  stroke-width: 1;
+}
+
+.kmeans-axis-line,
+.kmeans-tick {
+  stroke: #8e8e88;
+}
+
+.kmeans-axis-line {
+  stroke-width: 1.3;
+}
+
+.kmeans-tick {
+  stroke-width: 1;
+}
+
+.kmeans-tick-label,
+.kmeans-axis-label {
+  fill: #5f5f5a;
+  font-family: Inter, "IBM Plex Sans", system-ui, sans-serif;
+}
+
+.kmeans-tick-label {
+  font-size: 12px;
+}
+
+.kmeans-axis-label {
+  font-size: 13px;
+  font-weight: 650;
+}
+
+.kmeans-point {
+  fill: var(--surface-muted);
+  stroke: var(--border-strong);
+  stroke-width: 2.2;
+}
+
+.kmeans-point.is-selected {
+  stroke: var(--text);
+  stroke-width: 3.2;
+}
+
+.kmeans-cluster-0 {
+  color: #2563eb;
+}
+
+.kmeans-cluster-1 {
+  color: #b45309;
+}
+
+.kmeans-cluster-2 {
+  color: #287a4b;
+}
+
+.kmeans-cluster-3 {
+  color: #7c4d9c;
+}
+
+.kmeans-cluster-4 {
+  color: #2b7c86;
+}
+
+.kmeans-point.kmeans-cluster-0 {
+  fill: #eaf0ff;
+  stroke: #2563eb;
+}
+
+.kmeans-point.kmeans-cluster-1 {
+  fill: #fff0e8;
+  stroke: #b45309;
+}
+
+.kmeans-point.kmeans-cluster-2 {
+  fill: #eaf6ef;
+  stroke: #287a4b;
+}
+
+.kmeans-point.kmeans-cluster-3 {
+  fill: #f2ecf7;
+  stroke: #7c4d9c;
+}
+
+.kmeans-point.kmeans-cluster-4 {
+  fill: #e8f4f4;
+  stroke: #2b7c86;
+}
+
+.kmeans-point.is-selected {
+  stroke: var(--text);
+  stroke-width: 3.2;
+}
+
+.kmeans-centroid line {
+  stroke: currentColor;
+  stroke-width: 3.2;
+  stroke-linecap: round;
+}
+
+.kmeans-centroid-label {
+  fill: currentColor;
+  font-size: 12px;
+  font-weight: 750;
+}
+
+.kmeans-previous-centroid {
+  opacity: 0.5;
+}
+
+.kmeans-previous-centroid line {
+  stroke: currentColor;
+  stroke-width: 1.8;
+  stroke-dasharray: 4 4;
+}
+
+.kmeans-movement-line {
+  stroke: currentColor;
+  stroke-width: 1.5;
+  stroke-dasharray: 5 5;
+  opacity: 0.75;
+}
+
+.kmeans-distance-line,
+.kmeans-inference-line {
+  stroke: var(--plot-residual);
+  stroke-width: 1.2;
+  stroke-dasharray: 4 4;
+  opacity: 0.75;
+}
+
+.kmeans-distance-line.is-nearest,
+.kmeans-inference-line.is-nearest {
+  stroke: var(--plot-orange);
+  stroke-width: 2.4;
+  opacity: 0.95;
+}
+
+.kmeans-inference-marker {
+  fill: var(--plot-orange);
+  stroke: var(--surface);
+  stroke-width: 2;
+}
+
+.kmeans-inference-label {
+  fill: var(--plot-orange);
+  font-size: 12px;
+  font-weight: 650;
+}
+
+.kmeans-observation {
+  width: 10px;
+  height: 10px;
+  border: 2px solid var(--border-strong);
+  border-radius: 50%;
+  background: var(--surface-muted);
+}
+
+.legend-symbol.kmeans-centroid,
+.legend-symbol.kmeans-previous {
+  color: var(--text);
+  font-size: 18px;
+  font-weight: 700;
+  line-height: 1;
+}
+
+.legend-symbol.kmeans-previous {
+  color: var(--text-tertiary);
+}
+
+.kmeans-transport-row {
+  display: flex;
+  align-items: center;
+  flex-wrap: wrap;
+  gap: 10px;
+  margin-top: 22px;
+  padding-top: 16px;
+  border-top: 1px solid var(--border);
+}
+
+.kmeans-phase-readout {
+  margin-left: 6px;
+  color: var(--text-secondary);
+  font-family: ui-monospace, SFMono-Regular, Menlo, Consolas, monospace;
+  font-size: 12px;
+}
+
+.kmeans-point-detail {
+  min-height: 20px;
+  margin: 12px 0 0;
+  color: var(--text-tertiary);
+  font-size: 12px;
+}
+
+.kmeans-mode-switch {
+  display: flex;
+  gap: 8px;
+  margin-top: 19px;
+}
+
+.kmeans-mode-switch .button.is-active {
+  border-color: var(--accent);
+  background: var(--accent-subtle);
+  color: var(--accent-dark);
+}
+
+.kmeans-inference-details {
+  display: grid;
+  gap: 7px;
+  max-width: 420px;
+  margin-top: 15px;
+  color: var(--text-secondary);
+  font-family: ui-monospace, SFMono-Regular, Menlo, Consolas, monospace;
+  font-size: 12px;
+}
+
+.kmeans-inference-heading {
+  color: var(--text);
+  font-family: Inter, "IBM Plex Sans", system-ui, sans-serif;
+  font-size: 13px;
+  font-weight: 650;
+}
+
+.kmeans-distance-row.is-nearest {
+  color: var(--plot-orange);
+  font-weight: 700;
+}
+
+.kmeans-inference-result {
+  margin-top: 3px;
+  color: var(--success);
+  font-family: Inter, "IBM Plex Sans", system-ui, sans-serif;
+  font-weight: 650;
+}
+
 .legend-symbol.class-a,
 .legend-symbol.class-b {
   width: 10px;
@@ -903,7 +1148,8 @@ input[type="range"]:disabled {
   padding-bottom: 4px;
 }
 
-.classification-screen .inference-control-row {
+.classification-screen .inference-control-row,
+.tree-screen .inference-control-row {
   grid-template-columns: repeat(2, minmax(220px, 1fr)) minmax(220px, 1.25fr);
 }
 
@@ -1311,7 +1557,8 @@ input[type="range"]:disabled {
     gap: 17px;
   }
 
-  .classification-screen .inference-control-row {
+  .classification-screen .inference-control-row,
+  .tree-screen .inference-control-row {
     grid-template-columns: 1fr;
   }
 
@@ -1370,8 +1617,19 @@ input[type="range"]:disabled {
 
   #logistic-regression .metric-strip,
   #knn .metric-strip,
-  #svm .metric-strip {
+  #svm .metric-strip,
+  #k-means .metric-strip {
     grid-template-columns: 1fr;
+  }
+
+  .kmeans-plot {
+    height: auto;
+    min-height: 0;
+  }
+
+  .kmeans-phase-readout {
+    flex-basis: 100%;
+    margin-left: 0;
   }
 
   .formula-line {

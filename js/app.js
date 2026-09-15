@@ -3,6 +3,7 @@ import { createLogisticRegressionPlayground } from "./playgrounds/logistic-regre
 import { createKNNPlayground } from "./playgrounds/knn.js";
 import { createSVMPlayground } from "./playgrounds/svm.js";
 import { createDecisionTreePlayground } from "./playgrounds/decision-tree.js";
+import { createKMeansPlayground } from "./playgrounds/k-means.js";
 
 const $ = (selector) => document.querySelector(selector);
 const $$ = (selector) => [...document.querySelectorAll(selector)];
@@ -89,6 +90,7 @@ function showPlayground(requestedId) {
     knn: "ML Visual Lab — K-Nearest Neighbors",
     svm: "ML Visual Lab — Linear SVM",
     "decision-tree": "ML Visual Lab — Decision Tree",
+    "k-means": "ML Visual Lab — K-Means",
   };
   document.title = titles[activeId] ?? titles["linear-regression"];
 }
@@ -214,4 +216,29 @@ createDecisionTreePlayground({
   inferenceYValue: $("#tree-inference-y-value"),
   inferenceStatus: $("#tree-inference-status"),
   happeningCopy: $("#tree-happening-copy"),
+});
+
+createKMeansPlayground({
+  plot: $("#kmeans-plot"),
+  kControl: $("#kmeans-k"),
+  kValue: $("#kmeans-k-value"),
+  randomizeButton: $("#kmeans-randomize-button"),
+  restartButton: $("#kmeans-restart-button"),
+  resetButton: $("#kmeans-reset-button"),
+  previousButton: $("#kmeans-previous-button"),
+  nextButton: $("#kmeans-next-button"),
+  autoButton: $("#kmeans-auto-button"),
+  trainingModeButton: $("#kmeans-training-mode"),
+  inferenceModeButton: $("#kmeans-inference-mode"),
+  status: $("#kmeans-status"),
+  phaseReadout: $("#kmeans-phase-readout"),
+  metricIteration: $("#kmeans-metric-iteration"),
+  metricPhase: $("#kmeans-metric-phase"),
+  metricK: $("#kmeans-metric-k"),
+  metricWCSS: $("#kmeans-metric-wcss"),
+  metricMovement: $("#kmeans-metric-movement"),
+  metricConvergence: $("#kmeans-metric-convergence"),
+  pointDetail: $("#kmeans-point-detail"),
+  inferenceStatus: $("#kmeans-inference-status"),
+  inferenceDetails: $("#kmeans-inference-details"),
 });

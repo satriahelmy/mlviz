@@ -92,9 +92,19 @@ Milestone 4 acceptance checks:
 
 ### Milestone 5 — K-Means
 
-- [ ] Implement explicit Initialize → Assign → Update state machine.
-- [ ] Add K 2–5, bounded previous-step history, next-step, auto-run/pause, and convergence.
-- [ ] Visualize centroid movement, WCSS, empty-cluster recovery, and fixed-centroid inference mode.
+- [x] Implement explicit Initialize → Assign → Update state machine.
+- [x] Add K 2–5, bounded previous-step history, next-step, auto-run/pause, and convergence.
+- [x] Visualize centroid movement, WCSS, empty-cluster recovery, and fixed-centroid inference mode.
+
+Milestone 5 acceptance checks:
+
+- [x] Next Step advances one meaningful phase at a time: Initialize Centroids → Assign Points → Update Centroids → Assign Points → Converged.
+- [x] K is selectable from 2 through 5; Randomize Centroids and Restart Same Data use deterministic alternate starts while preserving the fixed teaching dataset.
+- [x] Previous Step restores bounded state snapshots, and Auto Run is bounded to 30 phase transitions with Pause available while running.
+- [x] WCSS, iteration, phase, centroid movement, K, and convergence state update with each committed phase.
+- [x] Previous centroid positions, movement lines, and centroid symbols distinguish updates from ordinary observations.
+- [x] Empty clusters retain their previous centroid safely instead of producing invalid coordinates.
+- [x] Inference is enabled only after convergence, lists distances to every centroid, emphasizes the nearest centroid, and leaves centroids unchanged.
 
 ### Milestone 6 — V1 integration and quality pass
 
@@ -208,7 +218,28 @@ Complete. The current project now includes a deterministic Decision Tree playgro
 
 ### Next milestone
 
-Implement K-Means with its explicit Initialize → Assign → Update state machine.
+Complete the V1 integration and quality pass across all exposed playgrounds.
+
+## Milestone 5 completion notes
+
+### Status
+
+Complete. The current project now includes a K-Means playground with explicit phase transitions, bounded history, convergence, and fixed-centroid inference.
+
+### Additional files/areas changed
+
+- `index.html` — added the Clustering sidebar group and K-Means screen with transport, metrics, training/inference mode, and distance detail.
+- `css/app.css` — added restrained cluster, centroid, movement, inference, transport, and responsive styling.
+- `js/app.js` — bootstrapped K-Means and added its document title mapping.
+- `js/playgrounds/k-means.js` — added deterministic data, centroid initialization, assignment/update state machine, history, bounded Auto Run, convergence, and inference rendering.
+
+### Checks performed
+
+- JavaScript syntax checks passed for all application, shared helper, and playground modules.
+- K-Means smoke test passed through initialize, assign, update, convergence, Previous Step, and K=5 empty-cluster safety.
+- Fixed-centroid inference smoke test passed with distance listing and unchanged centroid coordinates.
+- Static integration confirms five exposed playgrounds and matching screen IDs, including the Clustering sidebar item.
+- Apache/XAMPP serves the current page and K-Means module successfully at `http://localhost/mlviz/`.
 
 ## Linear Regression design refinement review
 
