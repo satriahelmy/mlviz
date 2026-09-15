@@ -600,7 +600,7 @@ input[type="range"]:disabled {
   stroke-width: 1.7;
 }
 
-.classification-screen .metric-strip {
+#knn .metric-strip {
   grid-template-columns: repeat(4, minmax(0, 1fr));
 }
 
@@ -1153,7 +1153,9 @@ input[type="range"]:disabled {
     min-height: 0;
   }
 
-  .classification-screen .metric-strip {
+  #logistic-regression .metric-strip,
+  #knn .metric-strip,
+  #svm .metric-strip {
     grid-template-columns: 1fr;
   }
 

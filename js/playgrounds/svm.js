@@ -36,7 +36,7 @@ function scoreAt(point, model) {
 function fitSVM(points, C) {
   let model = { w1: 0.8, w2: 0.8, bias: 0 };
   const learningRate = 0.04;
-  const regularization = 1;
+  const regularization = 0.05;
   for (let iteration = 0; iteration < 1400; iteration += 1) {
     let gradientW1 = regularization * model.w1;
     let gradientW2 = regularization * model.w2;
