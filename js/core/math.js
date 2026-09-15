@@ -77,3 +77,14 @@ export function euclideanDistance(a, b) {
   const dy = Number(a.y) - Number(b.y);
   return Math.sqrt(dx * dx + dy * dy);
 }
+
+export function giniImpurity(labels) {
+  if (!Array.isArray(labels) || labels.length === 0) return 0;
+  const counts = new Map();
+  labels.forEach((label) => counts.set(label, (counts.get(label) ?? 0) + 1));
+  const impurity = [...counts.values()].reduce((sum, count) => {
+    const probability = count / labels.length;
+    return sum + probability * probability;
+  }, 0);
+  return 1 - impurity;
+}

@@ -48,6 +48,7 @@
               <a class="nav-item" href="#logistic-regression" data-playground="logistic-regression">Logistic Regression</a>
               <a class="nav-item" href="#knn" data-playground="knn">K-Nearest Neighbors</a>
               <a class="nav-item" href="#svm" data-playground="svm">Linear SVM</a>
+              <a class="nav-item" href="#decision-tree" data-playground="decision-tree">Decision Tree</a>
             </section>
             <p class="no-results" id="nav-no-results" hidden>No matching visualizations.</p>
           </nav>
@@ -358,6 +359,37 @@
             <section class="formula-section" aria-labelledby="svm-formula-heading"><div><h2 id="svm-formula-heading">Formula</h2><p class="formula-intro">The model penalizes points inside the margin using hinge loss.</p></div><div class="formula-list"><div class="formula-line"><span class="formula-symbol">Score</span><code>f(x) = wᵀx + b</code></div><div class="formula-line"><span class="formula-symbol">Hinge loss</span><code>max(0, 1 − y · f(x))</code></div><div class="formula-line"><span class="formula-symbol">Decision</span><code>Class B if f(x) ≥ 0</code></div></div></section>
 
             <section class="experiment-section inference-section" aria-labelledby="svm-inference-heading"><div class="section-heading-row"><div><h2 id="svm-inference-heading">Inference</h2><p class="section-copy">After fitting, select a new point to classify against the margin.</p></div><span class="mode-label">Prediction on unseen input</span></div><div class="inference-control-row"><div class="inference-parameter"><div class="parameter-label-row"><label for="svm-inference-x">New X₁</label><output id="svm-inference-x-value" for="svm-inference-x">5.3</output></div><input id="svm-inference-x" type="range" min="0" max="10" step="0.1" value="5.3" /><div class="range-limits" aria-hidden="true"><span>0</span><span>10</span></div></div><div class="inference-parameter"><div class="parameter-label-row"><label for="svm-inference-y">New X₂</label><output id="svm-inference-y-value" for="svm-inference-y">5.0</output></div><input id="svm-inference-y" type="range" min="0" max="10" step="0.1" value="5" /><div class="range-limits" aria-hidden="true"><span>0</span><span>10</span></div></div><p class="inline-status is-ready" id="svm-inference-status">Current point ready.</p></div></section>
+          </section>
+
+          <section class="playground playground-screen tree-screen" id="decision-tree" data-playground-section="decision-tree" aria-labelledby="tree-page-title" hidden>
+            <header class="playground-header">
+              <div><p class="eyebrow">Classification</p><h1 id="tree-page-title">Decision Tree</h1><p class="playground-description">See how recursive axis-aligned splits divide the feature space and guide a new observation to a leaf.</p></div>
+              <div class="header-note" aria-label="Dataset information"><span class="note-label">Teaching dataset</span><span>12 observations · 2D</span></div>
+            </header>
+
+            <section class="experiment-section" aria-labelledby="tree-controls-heading">
+              <div class="section-heading-row"><h2 id="tree-controls-heading">Build the tree</h2><span class="section-hint">Choose a maximum depth, then inspect the split with the lowest weighted Gini.</span></div>
+              <div class="parameter-grid"><div class="parameter-row"><div class="parameter-label-row"><label for="tree-max-depth">Max depth</label><output id="tree-max-depth-value" for="tree-max-depth">2</output></div><input id="tree-max-depth" type="range" min="1" max="3" step="1" value="2" /><div class="range-limits" aria-hidden="true"><span>1</span><span>3</span></div></div></div>
+              <div class="action-row"><button class="button button-secondary" id="tree-reset-button" type="button">Reset</button><button class="button button-primary" id="tree-fit-button" type="button">Build Tree</button><span class="model-state is-unfitted" id="tree-status" role="status" aria-live="polite">Unfitted · build a tree</span></div>
+            </section>
+
+            <section class="experiment-section visualization-section" aria-labelledby="tree-visualization-heading">
+              <div class="section-heading-row"><h2 id="tree-visualization-heading">Data space and tree</h2><span class="section-hint">Select a node to highlight its region and split in the data space.</span></div>
+              <div class="plot-surface tree-visualization-surface">
+                <div class="tree-views">
+                  <div class="tree-view"><svg id="decision-tree-data-plot" class="tree-panel-svg" viewBox="0 0 520 430" role="img" aria-labelledby="decision-tree-data-title decision-tree-data-description" preserveAspectRatio="xMidYMid meet"><title id="decision-tree-data-title">Decision tree data space</title><desc id="decision-tree-data-description">Data space with labeled training observations. Build the tree to show decision splits.</desc></svg></div>
+                  <div class="tree-view"><svg id="decision-tree-tree-plot" class="tree-panel-svg" viewBox="0 0 520 430" role="img" aria-labelledby="decision-tree-tree-title decision-tree-tree-description" preserveAspectRatio="xMidYMid meet"><title id="decision-tree-tree-title">Decision tree structure</title><desc id="decision-tree-tree-description">Interactive tree view with split nodes, branches, and class leaves.</desc></svg></div>
+                </div>
+              </div>
+              <div class="plot-legend" aria-label="Plot legend"><span class="legend-item"><span class="legend-symbol class-a" aria-hidden="true"></span>Class A</span><span class="legend-item"><span class="legend-symbol class-b" aria-hidden="true"></span>Class B</span><span class="legend-item"><span class="legend-symbol tree-region" aria-hidden="true"></span>Selected region</span><span class="legend-item"><span class="legend-symbol inference" aria-hidden="true">◆</span>Inference point</span></div>
+            </section>
+
+            <section class="metrics-section" aria-labelledby="tree-metrics-heading"><h2 class="sr-only" id="tree-metrics-heading">Active decision tree node metrics</h2><div class="metric-strip"><div class="metric-item metric-item-primary"><span class="metric-label">Active split</span><strong id="tree-metric-split">—</strong></div><div class="metric-item"><span class="metric-label">Threshold</span><strong id="tree-metric-threshold">—</strong></div><div class="metric-item"><span class="metric-label">Gini impurity</span><strong id="tree-metric-gini">—</strong></div><div class="metric-item"><span class="metric-label">Samples</span><strong id="tree-metric-samples">—</strong></div></div></section>
+
+            <section class="teaching-section" aria-labelledby="tree-happening-heading"><h2 id="tree-happening-heading">What's Happening?</h2><p id="tree-happening-copy" aria-live="polite">A decision tree chooses the split that leaves the children with the lowest weighted Gini impurity. Set a maximum depth, then build the tree.</p></section>
+            <section class="formula-section" aria-labelledby="tree-formula-heading"><div><h2 id="tree-formula-heading">Formula</h2><p class="formula-intro">Each split seeks purer child groups by minimizing their weighted impurity.</p></div><div class="formula-list"><div class="formula-line"><span class="formula-symbol">Gini impurity</span><code>Gini = 1 − Σ pₖ²</code></div><div class="formula-line"><span class="formula-symbol">Split score</span><code>Gini split = Σ (nᵢ / n) · Giniᵢ</code></div><div class="formula-line"><span class="formula-symbol">Path rule</span><code>xⱼ &lt; threshold → left; otherwise → right</code></div></div></section>
+
+            <section class="experiment-section inference-section" aria-labelledby="tree-inference-heading"><div class="section-heading-row"><div><h2 id="tree-inference-heading">Inference</h2><p class="section-copy">After building, select a new point and follow its animated decision path to a leaf.</p></div><span class="mode-label">Prediction on unseen input</span></div><div class="inference-control-row"><div class="inference-parameter"><div class="parameter-label-row"><label for="tree-inference-x">New X₁</label><output id="tree-inference-x-value" for="tree-inference-x">5.1</output></div><input id="tree-inference-x" type="range" min="0" max="10" step="0.1" value="5.1" disabled /><div class="range-limits" aria-hidden="true"><span>0</span><span>10</span></div></div><div class="inference-parameter"><div class="parameter-label-row"><label for="tree-inference-y">New X₂</label><output id="tree-inference-y-value" for="tree-inference-y">5.1</output></div><input id="tree-inference-y" type="range" min="0" max="10" step="0.1" value="5.1" disabled /><div class="range-limits" aria-hidden="true"><span>0</span><span>10</span></div></div><p class="inline-status" id="tree-inference-status">Build the tree first to enable inference.</p></div></section>
           </section>
 
         </main>

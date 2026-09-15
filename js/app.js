@@ -2,6 +2,7 @@ import { createLinearRegressionPlayground } from "./playgrounds/linear-regressio
 import { createLogisticRegressionPlayground } from "./playgrounds/logistic-regression.js";
 import { createKNNPlayground } from "./playgrounds/knn.js";
 import { createSVMPlayground } from "./playgrounds/svm.js";
+import { createDecisionTreePlayground } from "./playgrounds/decision-tree.js";
 
 const $ = (selector) => document.querySelector(selector);
 const $$ = (selector) => [...document.querySelectorAll(selector)];
@@ -87,6 +88,7 @@ function showPlayground(requestedId) {
     "logistic-regression": "ML Visual Lab — Logistic Regression",
     knn: "ML Visual Lab — K-Nearest Neighbors",
     svm: "ML Visual Lab — Linear SVM",
+    "decision-tree": "ML Visual Lab — Decision Tree",
   };
   document.title = titles[activeId] ?? titles["linear-regression"];
 }
@@ -192,4 +194,24 @@ createSVMPlayground({
   inferenceYValue: $("#svm-inference-y-value"),
   inferenceStatus: $("#svm-inference-status"),
   happeningCopy: $("#svm-happening-copy"),
+});
+
+createDecisionTreePlayground({
+  dataPlot: $("#decision-tree-data-plot"),
+  treePlot: $("#decision-tree-tree-plot"),
+  maxDepthControl: $("#tree-max-depth"),
+  maxDepthValue: $("#tree-max-depth-value"),
+  resetButton: $("#tree-reset-button"),
+  fitButton: $("#tree-fit-button"),
+  status: $("#tree-status"),
+  metricSplit: $("#tree-metric-split"),
+  metricThreshold: $("#tree-metric-threshold"),
+  metricGini: $("#tree-metric-gini"),
+  metricSamples: $("#tree-metric-samples"),
+  inferenceXControl: $("#tree-inference-x"),
+  inferenceYControl: $("#tree-inference-y"),
+  inferenceXValue: $("#tree-inference-x-value"),
+  inferenceYValue: $("#tree-inference-y-value"),
+  inferenceStatus: $("#tree-inference-status"),
+  happeningCopy: $("#tree-happening-copy"),
 });

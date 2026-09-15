@@ -78,9 +78,17 @@ Milestone 3 acceptance checks:
 
 ### Milestone 4 — Decision Tree
 
-- [ ] Implement deterministic tree fitting with max-depth control and Gini-based split selection.
-- [ ] Add linked data-space and tree views with node selection.
-- [ ] Add animated inference path and leaf prediction without relying on hover.
+- [x] Implement deterministic tree fitting with max-depth control and Gini-based split selection.
+- [x] Add linked data-space and tree views with node selection.
+- [x] Add animated inference path and leaf prediction without relying on hover.
+
+Milestone 4 acceptance checks:
+
+- [x] Max depth and Build Tree controls produce deterministic recursive splits from the fixed teaching dataset.
+- [x] Active node metrics expose split feature, threshold, Gini impurity, and sample count.
+- [x] Selecting a tree node highlights its corresponding data-space region and split.
+- [x] Inference displays the new point, highlights the root-to-leaf path in sequence, and reports the leaf prediction.
+- [x] Data Space and Tree View remain coordinated panels that stack responsively without introducing decorative cards.
 
 ### Milestone 5 — K-Means
 
@@ -175,6 +183,32 @@ Complete. The current project exposes Linear Regression plus three functional cl
 - Production source scan confirms no Gradient Descent, `REFERENCE PLAYGROUND`, or `Reference slice · V1` labels remain in HTML, CSS, or JavaScript.
 - Classification hierarchy is structured as visualization → current metrics/state → What's Happening? → Formula → secondary Inference.
 - Interactive browser screenshot verification remains unavailable because the environment's in-app browser blocks local and localhost URLs.
+
+## Milestone 4 completion notes
+
+### Status
+
+Complete. The current project now includes a deterministic Decision Tree playground with linked data-space and tree views.
+
+### Additional files/areas changed
+
+- `index.html` — added the Decision Tree sidebar entry and two-panel playground screen.
+- `css/app.css` — added restrained linked-view, split, region, branch, node, and inference-path styling.
+- `js/app.js` — bootstrapped Decision Tree and added its document title mapping.
+- `js/core/math.js` — added Gini impurity calculation.
+- `js/playgrounds/decision-tree.js` — added deterministic split selection, max-depth fitting, linked SVG rendering, node selection, and animated inference path.
+
+### Checks performed
+
+- JavaScript syntax checks passed for all application, shared helper, and playground modules.
+- Gini and Decision Tree state smoke tests passed; the default tree chooses `X₁ < 4.70`, creates balanced child regions, and reaches pure leaves at depth 2.
+- Animated inference smoke test passed through the root, child, and leaf nodes.
+- Static navigation and hierarchy checks confirm Decision Tree is exposed and ordered as visualization → active node metrics → What's Happening? → Formula → secondary Inference.
+- Apache/XAMPP serves the current page successfully at `http://localhost/mlviz/`.
+
+### Next milestone
+
+Implement K-Means with its explicit Initialize → Assign → Update state machine.
 
 ## Linear Regression design refinement review
 
