@@ -1,0 +1,369 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <meta
+      name="description"
+      content="ML Visual Lab is a calm, interactive browser tool for teaching machine-learning concepts."
+    />
+    <title>ML Visual Lab — Linear Regression</title>
+    <link rel="stylesheet" href="css/app.css" />
+  </head>
+  <body>
+    <div class="app-shell">
+      <aside class="sidebar" id="sidebar" aria-label="Visualization navigation">
+        <div class="sidebar-inner">
+          <a class="wordmark" href="#linear-regression" aria-label="ML Visual Lab home">
+            ML Visual Lab
+          </a>
+
+          <div class="sidebar-search">
+            <label class="sr-only" for="visualization-search">Search visualizations</label>
+            <div class="search-field">
+              <span aria-hidden="true" class="search-glyph">⌕</span>
+              <input
+                id="visualization-search"
+                type="search"
+                placeholder="Search visualizations"
+                autocomplete="off"
+              />
+            </div>
+          </div>
+
+          <nav class="playground-nav" id="playground-nav" aria-label="Playgrounds">
+            <section class="nav-group" aria-labelledby="regression-nav-heading">
+              <h2 id="regression-nav-heading">Regression</h2>
+              <a
+                class="nav-item is-active"
+                href="#linear-regression"
+                aria-current="page"
+                data-playground="linear-regression"
+              >
+                Linear Regression
+              </a>
+            </section>
+            <section class="nav-group" aria-labelledby="classification-nav-heading">
+              <h2 id="classification-nav-heading">Classification</h2>
+              <a class="nav-item" href="#logistic-regression" data-playground="logistic-regression">Logistic Regression</a>
+              <a class="nav-item" href="#knn" data-playground="knn">K-Nearest Neighbors</a>
+              <a class="nav-item" href="#svm" data-playground="svm">Linear SVM</a>
+            </section>
+            <p class="no-results" id="nav-no-results" hidden>No matching visualizations.</p>
+          </nav>
+
+        </div>
+      </aside>
+
+      <div class="drawer-overlay" id="drawer-overlay" hidden></div>
+
+      <div class="page-column">
+        <header class="mobile-topbar">
+          <a class="mobile-wordmark" href="#linear-regression">ML Visual Lab</a>
+          <button
+            class="menu-button"
+            id="menu-button"
+            type="button"
+            aria-controls="sidebar"
+            aria-expanded="false"
+          >
+            <span class="menu-button-lines" aria-hidden="true"><i></i><i></i><i></i></span>
+            <span>Menu</span>
+          </button>
+        </header>
+
+        <main id="main-content" tabindex="-1">
+          <section class="playground playground-screen" id="linear-regression" data-playground-section="linear-regression" aria-labelledby="page-title">
+            <header class="playground-header">
+              <div>
+                <p class="eyebrow">Regression</p>
+                <h1 id="page-title">Linear Regression</h1>
+                <p class="playground-description">
+                  See how slope and intercept define a line, and how residuals contribute to mean squared error.
+                </p>
+              </div>
+              <div class="header-note" aria-label="Dataset information">
+                <span class="note-label">Teaching dataset</span>
+                <span>9 observations · 2D</span>
+              </div>
+            </header>
+
+            <section class="experiment-section" aria-labelledby="controls-heading">
+              <div class="section-heading-row">
+                <h2 id="controls-heading">Fit the line</h2>
+                <span class="section-hint">Adjust m and b, then find the least-squares fit.</span>
+              </div>
+
+              <div class="parameter-grid">
+                <div class="parameter-row">
+                  <div class="parameter-label-row">
+                    <label for="slope-control">Slope <span class="math-inline">m</span></label>
+                    <output id="slope-value" for="slope-control">0.50</output>
+                  </div>
+                  <input id="slope-control" type="range" min="-0.50" max="1.50" step="0.01" value="0.50" />
+                  <div class="range-limits" aria-hidden="true"><span>−0.50</span><span>1.50</span></div>
+                </div>
+
+                <div class="parameter-row">
+                  <div class="parameter-label-row">
+                    <label for="intercept-control">Intercept <span class="math-inline">b</span></label>
+                    <output id="intercept-value" for="intercept-control">2.00</output>
+                  </div>
+                  <input id="intercept-control" type="range" min="-2.00" max="6.00" step="0.01" value="2.00" />
+                  <div class="range-limits" aria-hidden="true"><span>−2.00</span><span>6.00</span></div>
+                </div>
+              </div>
+
+              <div class="action-row">
+                <button class="button button-secondary" id="reset-button" type="button">Reset</button>
+                <button class="button button-primary" id="best-fit-button" type="button">Find Best Fit</button>
+                <span class="model-state is-unfitted" id="model-status" role="status" aria-live="polite">
+                  Unfitted · manual line
+                </span>
+              </div>
+            </section>
+
+            <section class="experiment-section visualization-section" aria-labelledby="visualization-heading">
+              <div class="section-heading-row">
+                <h2 id="visualization-heading">Model and residuals</h2>
+                <span class="section-hint">Vertical segments show each observation's error.</span>
+              </div>
+
+              <div class="plot-surface">
+                <svg
+                  id="regression-plot"
+                  viewBox="0 0 800 500"
+                  role="img"
+                  aria-labelledby="plot-title plot-description"
+                  preserveAspectRatio="xMidYMid meet"
+                >
+                  <title id="plot-title">Linear regression plot</title>
+                  <desc id="plot-description">A scatter plot with observations, residuals, and a regression line.</desc>
+                </svg>
+              </div>
+
+              <div class="plot-legend" aria-label="Plot legend">
+                <span class="legend-item"><span class="legend-symbol observation" aria-hidden="true"></span>Training observation</span>
+                <span class="legend-item"><span class="legend-symbol residual" aria-hidden="true"></span>Residual</span>
+                <span class="legend-item"><span class="legend-symbol model" aria-hidden="true"></span>Current model</span>
+                <span class="legend-item"><span class="legend-symbol inference" aria-hidden="true">◆</span>Inference projection</span>
+              </div>
+            </section>
+
+            <section class="metrics-section" aria-labelledby="metrics-heading">
+              <h2 class="sr-only" id="metrics-heading">Current model metrics</h2>
+              <div class="metric-strip">
+                <div class="metric-item metric-item-primary">
+                  <span class="metric-label">Mean squared error <span class="math-inline">MSE</span></span>
+                  <strong id="metric-mse">—</strong>
+                  <span class="metric-note">Average squared residual</span>
+                </div>
+                <div class="metric-item">
+                  <span class="metric-label">Current slope <span class="math-inline">m</span></span>
+                  <strong id="metric-slope">0.50</strong>
+                </div>
+                <div class="metric-item">
+                  <span class="metric-label">Current intercept <span class="math-inline">b</span></span>
+                  <strong id="metric-intercept">2.00</strong>
+                </div>
+              </div>
+            </section>
+
+            <section class="teaching-section" aria-labelledby="happening-heading">
+              <h2 id="happening-heading">What's Happening?</h2>
+              <p id="happening-copy" aria-live="polite">
+                Adjust the slope or intercept. The residuals and MSE will update immediately.
+              </p>
+            </section>
+
+            <section class="formula-section" aria-labelledby="formula-heading">
+              <div>
+                <h2 id="formula-heading">Formula</h2>
+                <p class="formula-intro">The line predicts a value for each X, then averages the squared vertical errors.</p>
+              </div>
+              <div class="formula-list">
+                <div class="formula-line"><span class="formula-symbol">Prediction</span><code id="formula-prediction">ŷ = 0.50x + 2.00</code></div>
+                <div class="formula-line"><span class="formula-symbol">Residual</span><code>rᵢ = yᵢ − ŷᵢ</code></div>
+                <div class="formula-line"><span class="formula-symbol">Mean squared error</span><code>MSE = (1 / n) Σ (yᵢ − ŷᵢ)²</code></div>
+              </div>
+            </section>
+
+            <section class="experiment-section inference-section" aria-labelledby="inference-heading">
+              <div class="section-heading-row">
+                <div>
+                  <h2 id="inference-heading">Inference</h2>
+                  <p class="section-copy">After fitting, select a new X value to project it onto the current line.</p>
+                </div>
+                <span class="mode-label" id="inference-mode-label">Prediction on unseen input</span>
+              </div>
+
+              <div class="inference-control-row">
+                <div class="inference-parameter">
+                  <div class="parameter-label-row">
+                    <label for="inference-x">New X</label>
+                    <output id="inference-x-value" for="inference-x">6.50</output>
+                  </div>
+                  <input id="inference-x" type="range" min="0" max="10" step="0.10" value="6.50" disabled />
+                  <div class="range-limits" aria-hidden="true"><span>0</span><span>10</span></div>
+                </div>
+                <div class="prediction-readout" aria-live="polite">
+                  <span class="readout-label">Predicted ŷ</span>
+                  <strong id="prediction-value">—</strong>
+                </div>
+                <p class="inline-status" id="inference-status">Fit the model first to enable inference.</p>
+              </div>
+            </section>
+
+          </section>
+
+          <section class="playground playground-screen classification-screen" id="logistic-regression" data-playground-section="logistic-regression" aria-labelledby="logistic-page-title" hidden>
+            <header class="playground-header">
+              <div>
+                <p class="eyebrow">Classification</p>
+                <h1 id="logistic-page-title">Logistic Regression</h1>
+                <p class="playground-description">
+                  Turn a weighted score into probability, then see how a threshold creates a linear decision boundary.
+                </p>
+              </div>
+              <div class="header-note" aria-label="Dataset information">
+                <span class="note-label">Teaching dataset</span>
+                <span>10 observations · 2D</span>
+              </div>
+            </header>
+
+            <section class="experiment-section" aria-labelledby="logistic-controls-heading">
+              <div class="section-heading-row">
+                <h2 id="logistic-controls-heading">Adjust the boundary</h2>
+                <span class="section-hint">Change the weights and threshold, then fit the classifier.</span>
+              </div>
+              <div class="parameter-grid">
+                <div class="parameter-row">
+                  <div class="parameter-label-row"><label for="logistic-w1">Weight <span class="math-inline">w₁</span></label><output id="logistic-w1-value" for="logistic-w1">1.00</output></div>
+                  <input id="logistic-w1" type="range" min="-10" max="10" step="0.10" value="1" />
+                  <div class="range-limits" aria-hidden="true"><span>−10</span><span>10</span></div>
+                </div>
+                <div class="parameter-row">
+                  <div class="parameter-label-row"><label for="logistic-w2">Weight <span class="math-inline">w₂</span></label><output id="logistic-w2-value" for="logistic-w2">1.00</output></div>
+                  <input id="logistic-w2" type="range" min="-10" max="10" step="0.10" value="1" />
+                  <div class="range-limits" aria-hidden="true"><span>−10</span><span>10</span></div>
+                </div>
+                <div class="parameter-row">
+                  <div class="parameter-label-row"><label for="logistic-bias">Bias <span class="math-inline">b</span></label><output id="logistic-bias-value" for="logistic-bias">−10.00</output></div>
+                  <input id="logistic-bias" type="range" min="-10" max="10" step="0.10" value="-10" />
+                  <div class="range-limits" aria-hidden="true"><span>−10</span><span>10</span></div>
+                </div>
+                <div class="parameter-row">
+                  <div class="parameter-label-row"><label for="logistic-threshold">Class B threshold</label><output id="logistic-threshold-value" for="logistic-threshold">0.50</output></div>
+                  <input id="logistic-threshold" type="range" min="0.10" max="0.90" step="0.05" value="0.50" />
+                  <div class="range-limits" aria-hidden="true"><span>0.10</span><span>0.90</span></div>
+                </div>
+              </div>
+              <div class="action-row">
+                <button class="button button-secondary" id="logistic-reset-button" type="button">Reset</button>
+                <button class="button button-primary" id="logistic-fit-button" type="button">Fit Classifier</button>
+                <span class="model-state is-unfitted" id="logistic-status" role="status" aria-live="polite">Unfitted · manual boundary</span>
+              </div>
+            </section>
+
+            <section class="experiment-section visualization-section" aria-labelledby="logistic-visualization-heading">
+              <div class="section-heading-row">
+                <h2 id="logistic-visualization-heading">Decision boundary</h2>
+                <span class="section-hint">The boundary is where predicted probability meets the threshold.</span>
+              </div>
+              <div class="plot-surface">
+                <svg id="logistic-plot" class="classification-plot" viewBox="0 0 800 500" role="img" aria-labelledby="logistic-plot-title logistic-plot-description" preserveAspectRatio="xMidYMid meet">
+                  <title id="logistic-plot-title">Logistic regression decision boundary</title>
+                  <desc id="logistic-plot-description">A two-class scatter plot with a logistic decision boundary.</desc>
+                </svg>
+              </div>
+              <div class="plot-legend" aria-label="Plot legend">
+                <span class="legend-item"><span class="legend-symbol class-a" aria-hidden="true"></span>Class A</span>
+                <span class="legend-item"><span class="legend-symbol class-b" aria-hidden="true"></span>Class B</span>
+                <span class="legend-item"><span class="legend-symbol boundary" aria-hidden="true"></span>Decision boundary</span>
+                <span class="legend-item"><span class="legend-symbol inference" aria-hidden="true">◆</span>Inference point</span>
+              </div>
+            </section>
+
+            <section class="metrics-section" aria-labelledby="logistic-metrics-heading">
+              <h2 class="sr-only" id="logistic-metrics-heading">Current classifier metrics</h2>
+              <div class="metric-strip">
+                <div class="metric-item metric-item-primary"><span class="metric-label">Class B threshold</span><strong id="logistic-metric-threshold">0.50</strong></div>
+                <div class="metric-item"><span class="metric-label">Inference probability</span><strong id="logistic-metric-probability">—</strong></div>
+                <div class="metric-item"><span class="metric-label">Inference prediction</span><strong id="logistic-metric-prediction">—</strong></div>
+              </div>
+            </section>
+
+            <section class="teaching-section" aria-labelledby="logistic-happening-heading">
+              <h2 id="logistic-happening-heading">What's Happening?</h2>
+              <p id="logistic-happening-copy" aria-live="polite">Adjust the weights, bias, or threshold to move the boundary. Fit the classifier to learn parameters from the teaching observations.</p>
+            </section>
+
+            <section class="formula-section" aria-labelledby="logistic-formula-heading">
+              <div><h2 id="logistic-formula-heading">Formula</h2><p class="formula-intro">A linear score is passed through the sigmoid function to produce a probability.</p></div>
+              <div class="formula-list">
+                <div class="formula-line"><span class="formula-symbol">Score</span><code>z = w₁x₁ + w₂x₂ + b</code></div>
+                <div class="formula-line"><span class="formula-symbol">Probability</span><code>p = σ(z) = 1 / (1 + e⁻ᶻ)</code></div>
+                <div class="formula-line"><span class="formula-symbol">Decision</span><code>Class B if p ≥ threshold</code></div>
+              </div>
+            </section>
+
+            <section class="experiment-section inference-section" aria-labelledby="logistic-inference-heading">
+              <div class="section-heading-row"><div><h2 id="logistic-inference-heading">Inference</h2><p class="section-copy">After fitting, select a new point to classify with the current boundary.</p></div><span class="mode-label">Prediction on unseen input</span></div>
+              <div class="inference-control-row">
+                <div class="inference-parameter"><div class="parameter-label-row"><label for="logistic-inference-x">New X₁</label><output id="logistic-inference-x-value" for="logistic-inference-x">6.2</output></div><input id="logistic-inference-x" type="range" min="0" max="10" step="0.1" value="6.2" disabled /><div class="range-limits" aria-hidden="true"><span>0</span><span>10</span></div></div>
+                <div class="inference-parameter"><div class="parameter-label-row"><label for="logistic-inference-y">New X₂</label><output id="logistic-inference-y-value" for="logistic-inference-y">5.8</output></div><input id="logistic-inference-y" type="range" min="0" max="10" step="0.1" value="5.8" disabled /><div class="range-limits" aria-hidden="true"><span>0</span><span>10</span></div></div>
+                <p class="inline-status" id="logistic-inference-status">Fit the model first to enable inference.</p>
+              </div>
+            </section>
+          </section>
+
+          <section class="playground playground-screen classification-screen" id="knn" data-playground-section="knn" aria-labelledby="knn-page-title" hidden>
+            <header class="playground-header">
+              <div><p class="eyebrow">Classification</p><h1 id="knn-page-title">K-Nearest Neighbors</h1><p class="playground-description">Classify a new point by looking at the labels of the closest training observations.</p></div>
+              <div class="header-note" aria-label="Dataset information"><span class="note-label">Teaching dataset</span><span>10 observations · 2D</span></div>
+            </header>
+
+            <section class="experiment-section" aria-labelledby="knn-controls-heading">
+              <div class="section-heading-row"><h2 id="knn-controls-heading">Choose the neighborhood</h2><span class="section-hint">Move the query point or change K to see the vote update.</span></div>
+              <div class="parameter-grid">
+                <div class="parameter-row"><div class="parameter-label-row"><label for="knn-k">Neighbors <span class="math-inline">k</span></label><output id="knn-k-value" for="knn-k">3</output></div><input id="knn-k" type="range" min="1" max="7" step="1" value="3" /><div class="range-limits" aria-hidden="true"><span>1</span><span>7</span></div></div>
+              </div>
+              <div class="action-row"><button class="button button-secondary" id="knn-reset-button" type="button">Reset</button><span class="model-state is-fitted" id="knn-status" role="status" aria-live="polite">Training set fixed · query point independent</span></div>
+            </section>
+
+            <section class="experiment-section visualization-section" aria-labelledby="knn-visualization-heading">
+              <div class="section-heading-row"><h2 id="knn-visualization-heading">Nearest neighbors</h2><span class="section-hint">Lines connect the query to its K closest observations.</span></div>
+              <div class="plot-surface"><svg id="knn-plot" class="classification-plot" viewBox="0 0 800 500" role="img" aria-labelledby="knn-plot-title knn-plot-description" preserveAspectRatio="xMidYMid meet"><title id="knn-plot-title">K-nearest neighbors plot</title><desc id="knn-plot-description">A two-class scatter plot showing the query point and its nearest neighbors.</desc></svg></div>
+              <div class="plot-legend" aria-label="Plot legend"><span class="legend-item"><span class="legend-symbol class-a" aria-hidden="true"></span>Class A</span><span class="legend-item"><span class="legend-symbol class-b" aria-hidden="true"></span>Class B</span><span class="legend-item"><span class="legend-symbol neighbor" aria-hidden="true"></span>Nearest neighbor</span><span class="legend-item"><span class="legend-symbol inference" aria-hidden="true">◆</span>Query point</span></div>
+            </section>
+
+            <section class="metrics-section" aria-labelledby="knn-metrics-heading"><h2 class="sr-only" id="knn-metrics-heading">K-nearest neighbors metrics</h2><div class="metric-strip"><div class="metric-item metric-item-primary"><span class="metric-label">Neighbors <span class="math-inline">k</span></span><strong id="knn-metric-k">3</strong></div><div class="metric-item"><span class="metric-label">Class A votes</span><strong id="knn-metric-class-a">—</strong></div><div class="metric-item"><span class="metric-label">Class B votes</span><strong id="knn-metric-class-b">—</strong></div><div class="metric-item"><span class="metric-label">Prediction</span><strong id="knn-metric-prediction">—</strong></div></div></section>
+
+            <section class="teaching-section" aria-labelledby="knn-happening-heading"><h2 id="knn-happening-heading">What's Happening?</h2><p id="knn-happening-copy" aria-live="polite">The nearest observations vote on the query point's class. Adjust K to change how local or broad that vote becomes.</p></section>
+            <section class="formula-section" aria-labelledby="knn-formula-heading"><div><h2 id="knn-formula-heading">Formula</h2><p class="formula-intro">Distance determines which observations participate in the majority vote.</p></div><div class="formula-list"><div class="formula-line"><span class="formula-symbol">Euclidean distance</span><code>d = √((x₁ − q₁)² + (x₂ − q₂)²)</code></div><div class="formula-line"><span class="formula-symbol">Prediction</span><code>ŷ = mode(labels of K nearest points)</code></div></div></section>
+
+            <section class="experiment-section inference-section" aria-labelledby="knn-inference-heading"><div class="section-heading-row"><div><h2 id="knn-inference-heading">Inference</h2><p class="section-copy">Move the query point to ask the fitted neighborhood a new question.</p></div><span class="mode-label">Interactive query</span></div><div class="inference-control-row"><div class="inference-parameter"><div class="parameter-label-row"><label for="knn-query-x">Query X₁</label><output id="knn-query-x-value" for="knn-query-x">5.5</output></div><input id="knn-query-x" type="range" min="0" max="10" step="0.1" value="5.5" /><div class="range-limits" aria-hidden="true"><span>0</span><span>10</span></div></div><div class="inference-parameter"><div class="parameter-label-row"><label for="knn-query-y">Query X₂</label><output id="knn-query-y-value" for="knn-query-y">5.0</output></div><input id="knn-query-y" type="range" min="0" max="10" step="0.1" value="5" /><div class="range-limits" aria-hidden="true"><span>0</span><span>10</span></div></div><p class="inline-status is-ready" id="knn-query-status">Query ready.</p></div></section>
+          </section>
+
+          <section class="playground playground-screen classification-screen" id="svm" data-playground-section="svm" aria-labelledby="svm-page-title" hidden>
+            <header class="playground-header"><div><p class="eyebrow">Classification</p><h1 id="svm-page-title">Linear SVM</h1><p class="playground-description">Find a separating line with the widest useful margin between two classes.</p></div><div class="header-note" aria-label="Dataset information"><span class="note-label">Teaching dataset</span><span>10 observations · 2D</span></div></header>
+
+            <section class="experiment-section" aria-labelledby="svm-controls-heading"><div class="section-heading-row"><h2 id="svm-controls-heading">Tune the margin</h2><span class="section-hint">Change C to balance a wide margin against classification errors.</span></div><div class="parameter-grid"><div class="parameter-row"><div class="parameter-label-row"><label for="svm-c">Penalty <span class="math-inline">C</span></label><output id="svm-c-value" for="svm-c">1.0</output></div><input id="svm-c" type="range" min="0.1" max="5" step="0.1" value="1" /><div class="range-limits" aria-hidden="true"><span>0.1</span><span>5.0</span></div></div></div><div class="action-row"><button class="button button-secondary" id="svm-reset-button" type="button">Reset</button><button class="button button-primary" id="svm-fit-button" type="button">Fit SVM</button><span class="model-state is-fitted" id="svm-status" role="status" aria-live="polite">Fitted · linear margin ready</span></div></section>
+
+            <section class="experiment-section visualization-section" aria-labelledby="svm-visualization-heading"><div class="section-heading-row"><h2 id="svm-visualization-heading">Margin and support vectors</h2><span class="section-hint">Support vectors anchor the boundary and its two unit-margin guides.</span></div><div class="plot-surface"><svg id="svm-plot" class="classification-plot" viewBox="0 0 800 500" role="img" aria-labelledby="svm-plot-title svm-plot-description" preserveAspectRatio="xMidYMid meet"><title id="svm-plot-title">Linear support vector machine plot</title><desc id="svm-plot-description">A two-class scatter plot with a separating line, margin guides, and support vectors.</desc></svg></div><div class="plot-legend" aria-label="Plot legend"><span class="legend-item"><span class="legend-symbol class-a" aria-hidden="true"></span>Class A</span><span class="legend-item"><span class="legend-symbol class-b" aria-hidden="true"></span>Class B</span><span class="legend-item"><span class="legend-symbol boundary" aria-hidden="true"></span>Decision boundary</span><span class="legend-item"><span class="legend-symbol margin" aria-hidden="true"></span>Unit margin</span></div></section>
+
+            <section class="metrics-section" aria-labelledby="svm-metrics-heading"><h2 class="sr-only" id="svm-metrics-heading">Support vector machine metrics</h2><div class="metric-strip"><div class="metric-item metric-item-primary"><span class="metric-label">Penalty <span class="math-inline">C</span></span><strong id="svm-metric-c">1.0</strong></div><div class="metric-item"><span class="metric-label">Support vectors</span><strong id="svm-metric-support">—</strong></div><div class="metric-item"><span class="metric-label">Inference prediction</span><strong id="svm-metric-prediction">—</strong></div></div></section>
+
+            <section class="teaching-section" aria-labelledby="svm-happening-heading"><h2 id="svm-happening-heading">What's Happening?</h2><p id="svm-happening-copy" aria-live="polite">The solid line separates the classes. Dashed lines show the unit-margin boundaries, while support vectors sit closest to the margin.</p></section>
+            <section class="formula-section" aria-labelledby="svm-formula-heading"><div><h2 id="svm-formula-heading">Formula</h2><p class="formula-intro">The model penalizes points inside the margin using hinge loss.</p></div><div class="formula-list"><div class="formula-line"><span class="formula-symbol">Score</span><code>f(x) = wᵀx + b</code></div><div class="formula-line"><span class="formula-symbol">Hinge loss</span><code>max(0, 1 − y · f(x))</code></div><div class="formula-line"><span class="formula-symbol">Decision</span><code>Class B if f(x) ≥ 0</code></div></div></section>
+
+            <section class="experiment-section inference-section" aria-labelledby="svm-inference-heading"><div class="section-heading-row"><div><h2 id="svm-inference-heading">Inference</h2><p class="section-copy">After fitting, select a new point to classify against the margin.</p></div><span class="mode-label">Prediction on unseen input</span></div><div class="inference-control-row"><div class="inference-parameter"><div class="parameter-label-row"><label for="svm-inference-x">New X₁</label><output id="svm-inference-x-value" for="svm-inference-x">5.3</output></div><input id="svm-inference-x" type="range" min="0" max="10" step="0.1" value="5.3" /><div class="range-limits" aria-hidden="true"><span>0</span><span>10</span></div></div><div class="inference-parameter"><div class="parameter-label-row"><label for="svm-inference-y">New X₂</label><output id="svm-inference-y-value" for="svm-inference-y">5.0</output></div><input id="svm-inference-y" type="range" min="0" max="10" step="0.1" value="5" /><div class="range-limits" aria-hidden="true"><span>0</span><span>10</span></div></div><p class="inline-status is-ready" id="svm-inference-status">Current point ready.</p></div></section>
+          </section>
+
+        </main>
+      </div>
+    </div>
+
+    <script type="module" src="js/app.js"></script>
+  </body>
+</html>
