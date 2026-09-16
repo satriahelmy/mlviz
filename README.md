@@ -1,81 +1,81 @@
 # ML Visual Lab
 
-ML Visual Lab adalah aplikasi web interaktif untuk mempelajari konsep dasar machine learning melalui visualisasi 2D. Pengguna dapat mengubah parameter, menjalankan proses fitting atau training, mengamati perubahan plot dan metrik, lalu mencoba prediksi pada data baru.
+ML Visual Lab is an interactive web application for learning core machine-learning concepts through 2D visualizations. Users can adjust parameters, run fitting or training steps, observe changes in plots and metrics, and try predictions on new data points.
 
-Aplikasi ini ditujukan untuk pengajaran di kelas, workshop, dan belajar mandiri. Fokusnya adalah membantu memahami proses di balik algoritma—bukan menggantikan library machine learning produksi seperti scikit-learn.
+The application is designed for classroom teaching, workshops, and self-directed learning. Its goal is to make the mechanics behind each algorithm easier to understand—not to replace production machine-learning libraries such as scikit-learn.
 
-## Fitur
+## Features
 
-Playground yang tersedia:
+Available playgrounds:
 
-- **Linear Regression** — mengubah slope dan intercept, melihat residual serta MSE, dan menghitung ordinary least-squares best fit.
-- **Logistic Regression** — memahami score, sigmoid, probability, threshold, decision boundary, dan inference.
-- **K-Nearest Neighbors** — memilih nilai `K`, memindahkan query point, dan melihat voting dari tetangga terdekat.
-- **Linear SVM** — mengatur penalty `C`, melihat decision boundary, margin, support vector, dan prediksi titik baru.
-- **Decision Tree** — memilih maximum depth, membangun split berbasis Gini impurity, menghubungkan data space dengan tree view, dan mengikuti jalur inference.
-- **K-Means** — menjalankan fase initialize → assign → update langkah demi langkah, memantau WCSS dan perpindahan centroid, serta mencoba inference setelah konvergen.
+- **Linear Regression** — adjust the slope and intercept, inspect residuals and MSE, and calculate the ordinary least-squares best fit.
+- **Logistic Regression** — explore scores, the sigmoid function, probabilities, thresholds, decision boundaries, and inference.
+- **K-Nearest Neighbors** — select `K`, move the query point, and inspect the vote from the nearest neighbors.
+- **Linear SVM** — adjust the penalty `C`, view the decision boundary and margin, identify support vectors, and predict new points.
+- **Decision Tree** — select the maximum depth, build Gini-based splits, connect the data space to the tree view, and follow an inference path.
+- **K-Means** — run the initialize → assign → update phases step by step, monitor WCSS and centroid movement, and try inference after convergence.
 
-Fitur antarmuka bersama:
+Shared interface features:
 
-- visualisasi SVG responsif;
-- sidebar dengan pencarian playground;
-- navigasi berbasis URL hash, misalnya `#knn`;
-- drawer navigasi untuk layar kecil;
-- kontrol yang dapat digunakan dengan keyboard;
-- penjelasan dinamis berbasis state saat ini;
-- dukungan `prefers-reduced-motion` untuk mengurangi animasi non-esensial.
+- responsive SVG visualizations;
+- sidebar with playground search;
+- URL hash navigation, such as `#knn`;
+- a navigation drawer on small screens;
+- keyboard-accessible controls;
+- state-based dynamic explanations;
+- `prefers-reduced-motion` support for reducing non-essential animations.
 
-## Teknologi
+## Technology
 
 - HTML5
 - CSS3
-- JavaScript vanilla dengan ES modules
-- SVG untuk plot dan diagram
+- Vanilla JavaScript with ES modules
+- SVG for plots and diagrams
 
-Tidak ada backend, database, autentikasi, Python, build system, atau dependency pihak ketiga. Dataset yang digunakan adalah dataset pengajaran kecil yang sudah ditentukan di dalam kode.
+There is no backend, database, authentication, Python runtime, build system, or third-party dependency. The application uses small teaching datasets defined directly in the source code.
 
-## Menjalankan secara lokal
+## Running locally
 
-Karena aplikasi menggunakan ES modules, jalankan melalui web server lokal agar semua module dapat dimuat dengan benar.
+Because the application uses ES modules, run it through a local web server so that all modules load correctly.
 
-### Opsi 1: Python
+### Option 1: Python
 
-Pastikan Python 3 tersedia, lalu jalankan dari root repository:
+Make sure Python 3 is installed, then run this command from the repository root:
 
 ```bash
 python -m http.server 8000
 ```
 
-Buka [http://localhost:8000](http://localhost:8000) di browser.
+Open [http://localhost:8000](http://localhost:8000) in a browser.
 
-### Opsi 2: XAMPP
+### Option 2: XAMPP
 
-1. Letakkan repository ini di `htdocs/mlviz`.
-2. Jalankan Apache dari XAMPP Control Panel.
-3. Buka [http://localhost/mlviz/](http://localhost/mlviz/).
+1. Place this repository in `htdocs/mlviz`.
+2. Start Apache from the XAMPP Control Panel.
+3. Open [http://localhost/mlviz/](http://localhost/mlviz/).
 
-### Opsi 3: PHP built-in server
+### Option 3: PHP built-in server
 
-Jika PHP tersedia:
+If PHP is available:
 
 ```bash
 php -S localhost:8000
 ```
 
-Kemudian buka [http://localhost:8000](http://localhost:8000).
+Then open [http://localhost:8000](http://localhost:8000).
 
-## Struktur repository
+## Repository structure
 
 ```text
 .
-├── index.html                    # Shell aplikasi dan markup semua playground
+├── index.html                    # Application shell and markup for all playgrounds
 ├── css/
-│   └── app.css                   # Token desain, layout, responsive UI, dan styling SVG
+│   └── app.css                   # Design tokens, layout, responsive UI, and SVG styling
 ├── js/
-│   ├── app.js                    # Navigasi, pencarian, drawer, dan bootstrap playground
+│   ├── app.js                    # Navigation, search, drawer, and playground bootstrap
 │   ├── core/
-│   │   ├── math.js               # Fungsi matematika bersama
-│   │   └── plot.js               # Helper skala, frame, tick, dan teks SVG
+│   │   ├── math.js               # Shared mathematical functions
+│   │   └── plot.js               # SVG scale, frame, tick, and text helpers
 │   └── playgrounds/
 │       ├── linear-regression.js
 │       ├── logistic-regression.js
@@ -85,29 +85,29 @@ Kemudian buka [http://localhost:8000](http://localhost:8000).
 │       └── k-means.js
 ├── PRD_ML_Visual_Lab_V1.md       # Product requirements
 ├── design_ML_Visual_Lab_V1.md    # Design specification
-└── task.md                       # Roadmap dan catatan verifikasi
+└── task.md                       # Roadmap and verification notes
 ```
 
-Setiap playground memisahkan state, logika algoritma, dan rendering SVG sejauh yang diperlukan. `js/app.js` hanya menangani shell aplikasi dan menghubungkan elemen HTML dengan modul playground.
+Each playground separates state, algorithm logic, and SVG rendering as appropriate. `js/app.js` handles the application shell and connects the HTML elements to the playground modules.
 
-## Validasi sintaks
+## Syntax validation
 
-Tidak ada test runner atau proses build khusus. Untuk memeriksa sintaks semua file JavaScript menggunakan Node.js:
+There is no dedicated test runner or build process. To check the syntax of all JavaScript files with Node.js:
 
 ```powershell
 Get-ChildItem .\js -Recurse -Filter *.js | ForEach-Object { node --check $_.FullName }
 ```
 
-Setelah perubahan UI atau interaksi, lakukan smoke test di browser untuk memastikan navigasi, kontrol, plot, inference, dan responsive layout tetap berfungsi.
+After changing the UI or interactions, run a browser smoke test to confirm that navigation, controls, plots, inference, and responsive layouts still work as expected.
 
-## Batasan V1
+## V1 limitations
 
-- Dataset tidak dapat diunggah atau diganti melalui UI.
-- Dataset berukuran kecil dan dirancang untuk demonstrasi konsep.
-- Tidak ada penyimpanan progress, akun pengguna, atau export model.
-- Implementasi ditujukan untuk pembelajaran konseptual, bukan training model produksi atau evaluasi ilmiah skala besar.
-- Gradient Descent tidak termasuk dalam navigasi atau build V1 saat ini.
+- Datasets cannot be uploaded or replaced through the UI.
+- The datasets are small and designed for concept demonstrations.
+- There is no progress persistence, user account, or model export.
+- The implementation is intended for conceptual learning, not production model training or large-scale scientific evaluation.
+- Gradient Descent is not included in the current V1 navigation or build.
 
-## Lisensi
+## License
 
-Belum ada lisensi open-source yang ditentukan untuk repository ini.
+No open-source license has been specified for this repository yet.
