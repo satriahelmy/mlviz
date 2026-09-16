@@ -71,6 +71,7 @@ Then open [http://localhost:8000](http://localhost:8000).
 ```text
 .
 ├── index.html                    # Application shell and markup for all playgrounds
+├── favicon.svg                   # Minimal ML Visual Lab browser icon
 ├── css/
 │   └── app.css                   # Design tokens, layout, responsive UI, and SVG styling
 ├── js/
