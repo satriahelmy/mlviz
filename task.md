@@ -43,17 +43,17 @@ Linear Regression playground:
 
 Milestone 1 acceptance checks:
 
-- [ ] Sidebar search filters the visible navigation item and navigation state remains usable.
-- [ ] Drawer opens/closes from the mobile top bar, overlay, and Escape; focus is visible.
-- [ ] Layout has no horizontal overflow at desktop, tablet, or mobile widths.
-- [ ] Slope/intercept changes update the SVG line, residuals, displayed values, and MSE.
-- [ ] Find Best Fit matches the ordinary least-squares slope/intercept for the teaching dataset.
-- [ ] Inference shows the selected X, projection, and predicted ŷ without changing model parameters.
-- [ ] Reset restores the same parameters, metrics, and disabled inference state every time.
-- [ ] SVG resizes without distorting the coordinate system or hiding labels.
-- [ ] Controls work with mouse and keyboard and remain readable without hover.
-- [ ] `prefers-reduced-motion` suppresses nonessential transitions.
-- [ ] Rendered UI passes the anti-AI-slop/design QA review.
+- [x] Sidebar search filters the visible navigation item and navigation state remains usable.
+- [x] Drawer opens/closes from the mobile top bar, overlay, and Escape; focus is visible.
+- [x] Layout has no horizontal overflow at desktop, tablet, or mobile widths.
+- [x] Slope/intercept changes update the SVG line, residuals, displayed values, and MSE.
+- [x] Find Best Fit matches the ordinary least-squares slope/intercept for the teaching dataset.
+- [x] Inference shows the selected X, projection, and predicted ŷ without changing model parameters.
+- [x] Reset restores the same parameters, metrics, and disabled inference state every time.
+- [x] SVG resizes without distorting the coordinate system or hiding labels.
+- [x] Controls work with mouse and keyboard and remain readable without hover.
+- [x] `prefers-reduced-motion` suppresses nonessential transitions.
+- [x] Rendered UI passes the anti-AI-slop/design QA review.
 
 ### Milestone 2 — Gradient Descent (removed)
 
@@ -108,10 +108,10 @@ Milestone 5 acceptance checks:
 
 ### Milestone 6 — V1 integration and quality pass
 
-- [ ] Expose only completed playgrounds in navigation and keep active navigation consistent.
-- [ ] Verify every required primary control, reset state, metric, formula, and explanation.
-- [ ] Run responsive, keyboard, reduced-motion, projection-readability, and edge-case checks across all playgrounds.
-- [ ] Confirm the complete app deploys as ordinary static files with no backend or build step.
+- [x] Expose only completed playgrounds in navigation and keep active navigation consistent.
+- [x] Verify every required primary control, reset state, metric, formula, and explanation.
+- [x] Run responsive, keyboard, reduced-motion, projection-readability, and edge-case checks across all playgrounds.
+- [x] Confirm the complete app deploys as ordinary static files with no backend or build step.
 
 ## Current-slice technical decisions
 
@@ -143,7 +143,7 @@ Implementation is complete for the requested first vertical slice. The app is a 
 - DOM reference check found all 21 required IDs and only `linear-regression` exposed in navigation.
 - OLS/MSE assertions passed for the nine-point teaching dataset: initial MSE `0.994444...`, best-fit `m=0.783333...`, `b=1.238888...`, best-fit MSE `0.029506...`, inference prediction at `x=6.5` `ŷ=6.330555...`.
 - Source scan found no decorative gradients, backdrop blur, or box shadows.
-- Browser preview was attempted, but the available in-app browser blocks local/localhost URLs in this environment. Interactive screenshot verification therefore remains an environment limitation, not an application behavior claim.
+- Browser interaction verification was completed during Milestone 6 at the XAMPP-served localhost URL; desktop and mobile navigation, fit, inference, and responsive behavior were confirmed.
 
 ### Next milestone
 
@@ -192,7 +192,7 @@ Complete. The current project exposes Linear Regression plus three functional cl
 - Static navigation check confirms exactly four exposed playgrounds and matching screen IDs.
 - Production source scan confirms no Gradient Descent, `REFERENCE PLAYGROUND`, or `Reference slice · V1` labels remain in HTML, CSS, or JavaScript.
 - Classification hierarchy is structured as visualization → current metrics/state → What's Happening? → Formula → secondary Inference.
-- Interactive browser screenshot verification remains unavailable because the environment's in-app browser blocks local and localhost URLs.
+- Browser interaction verification was completed during Milestone 6 at the XAMPP-served localhost URL.
 
 ## Milestone 4 completion notes
 
@@ -218,7 +218,7 @@ Complete. The current project now includes a deterministic Decision Tree playgro
 
 ### Next milestone
 
-Complete the V1 integration and quality pass across all exposed playgrounds.
+Implement the K-Means playground while preserving the current shell and teaching hierarchy.
 
 ## Milestone 5 completion notes
 
@@ -238,8 +238,28 @@ Complete. The current project now includes a K-Means playground with explicit ph
 - JavaScript syntax checks passed for all application, shared helper, and playground modules.
 - K-Means smoke test passed through initialize, assign, update, convergence, Previous Step, and K=5 empty-cluster safety.
 - Fixed-centroid inference smoke test passed with distance listing and unchanged centroid coordinates.
-- Static integration confirms five exposed playgrounds and matching screen IDs, including the Clustering sidebar item.
+- Static integration confirms six exposed playgrounds and matching screen IDs, including the Clustering sidebar item.
 - Apache/XAMPP serves the current page and K-Means module successfully at `http://localhost/mlviz/`.
+
+## Milestone 6 completion notes
+
+### Status
+
+Complete. The V1 shell and all six implemented playgrounds passed the integration and quality pass. Gradient Descent remains intentionally removed.
+
+### Checks performed
+
+- [x] Navigation exposes exactly six completed playgrounds with matching screens and active navigation state.
+- [x] DOM audit confirms every playground has its required primary controls, plot, current-state metrics, deterministic explanation, formula, and secondary inference section.
+- [x] Linear Regression browser check at 1920×1080 confirmed 460px visualization height, primary MSE, fitted/stale status, immediate MSE response, and keyboard slider control.
+- [x] K-Means browser check confirmed Initialize → Assign → Update → Converged → Inference, WCSS/movement readouts, fixed-centroid distance detail, K=5 safety, and phase-linked teaching copy.
+- [x] Mobile browser check at 390×844 confirmed Menu drawer, Escape/navigation close behavior, responsive plots, and no horizontal overflow.
+- [x] Static checks passed for JavaScript syntax, reduced-motion CSS, restrained styling, production labels, and all six screen IDs.
+- [x] Apache/XAMPP HTTP smoke checks returned 200 for the HTML, CSS, app module, and K-Means module.
+
+### Follow-up
+
+V1 is complete. Future work should be treated as maintenance or a separately scoped V2 milestone.
 
 ## Linear Regression design refinement review
 
@@ -262,4 +282,4 @@ Complete. The approved scientific-tool visual direction is preserved; this pass 
 - [x] Source-level layout check confirms the desktop plot target is 460px and the required content order is present in the document.
 - [x] JavaScript syntax checks passed after the refinement pass.
 - [x] No gradients, glassmorphism, large shadows, or development labels were introduced.
-- [ ] Browser screenshot/interaction verification remains blocked because the available in-app browser rejects local and localhost URLs in this environment.
+- [x] Browser interaction verification completed at 1920×1080 and 390×844 through the XAMPP-served localhost page; navigation, responsive plot sizing, fit, MSE updates, and model status were confirmed.

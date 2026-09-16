@@ -239,6 +239,7 @@ createKMeansPlayground({
   metricMovement: $("#kmeans-metric-movement"),
   metricConvergence: $("#kmeans-metric-convergence"),
   pointDetail: $("#kmeans-point-detail"),
+  happeningCopy: $("#kmeans-happening-copy"),
   inferenceStatus: $("#kmeans-inference-status"),
   inferenceDetails: $("#kmeans-inference-details"),
 });
