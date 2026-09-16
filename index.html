@@ -49,6 +49,7 @@
               <a class="nav-item" href="#knn" data-playground="knn">K-Nearest Neighbors</a>
               <a class="nav-item" href="#svm" data-playground="svm">Linear SVM</a>
               <a class="nav-item" href="#decision-tree" data-playground="decision-tree">Decision Tree</a>
+              <a class="nav-item" href="#adaboost" data-playground="adaboost">AdaBoost</a>
             </section>
             <section class="nav-group" aria-labelledby="clustering-nav-heading">
               <h2 id="clustering-nav-heading">Clustering</h2>
@@ -396,6 +397,37 @@
             <section class="experiment-section inference-section" aria-labelledby="tree-inference-heading"><div class="section-heading-row"><div><h2 id="tree-inference-heading">Inference</h2><p class="section-copy">After building, select a new point and follow its animated decision path to a leaf.</p></div><span class="mode-label">Prediction on unseen input</span></div><div class="inference-control-row"><div class="inference-parameter"><div class="parameter-label-row"><label for="tree-inference-x">New X₁</label><output id="tree-inference-x-value" for="tree-inference-x">5.1</output></div><input id="tree-inference-x" type="range" min="0" max="10" step="0.1" value="5.1" disabled /><div class="range-limits" aria-hidden="true"><span>0</span><span>10</span></div></div><div class="inference-parameter"><div class="parameter-label-row"><label for="tree-inference-y">New X₂</label><output id="tree-inference-y-value" for="tree-inference-y">5.1</output></div><input id="tree-inference-y" type="range" min="0" max="10" step="0.1" value="5.1" disabled /><div class="range-limits" aria-hidden="true"><span>0</span><span>10</span></div></div><p class="inline-status" id="tree-inference-status">Build the tree first to enable inference.</p></div></section>
           </section>
 
+          <section class="playground playground-screen classification-screen adaboost-screen" id="adaboost" data-playground-section="adaboost" aria-labelledby="adaboost-page-title" hidden>
+            <header class="playground-header">
+              <div><p class="eyebrow">Classification</p><h1 id="adaboost-page-title">AdaBoost</h1><p class="playground-description">Watch simple decision stumps focus on earlier mistakes, then combine their weighted votes into one classifier.</p></div>
+              <div class="header-note" aria-label="Dataset information"><span class="note-label">Teaching dataset</span><span>12 observations · 2D</span></div>
+            </header>
+
+            <section class="experiment-section" aria-labelledby="adaboost-controls-heading">
+              <div class="section-heading-row"><h2 id="adaboost-controls-heading">Run the boosting cycle</h2><span class="section-hint">Advance one phase at a time: fit, evaluate, weight, then update attention.</span></div>
+              <div class="parameter-grid">
+                <div class="parameter-row"><div class="parameter-label-row"><label for="adaboost-weak-learners">Weak learners</label><output id="adaboost-weak-learners-value" for="adaboost-weak-learners">5</output></div><input id="adaboost-weak-learners" type="range" min="1" max="10" step="1" value="5" /><div class="range-limits" aria-hidden="true"><span>1</span><span>10</span></div></div>
+                <div class="parameter-row"><div class="parameter-label-row"><label for="adaboost-learning-rate">Learning rate <span class="math-inline">η</span></label><output id="adaboost-learning-rate-value" for="adaboost-learning-rate">1.00</output></div><input id="adaboost-learning-rate" type="range" min="0.25" max="1.50" step="0.05" value="1" /><div class="range-limits" aria-hidden="true"><span>0.25</span><span>1.50</span></div></div>
+              </div>
+              <div class="action-row"><button class="button button-secondary" id="adaboost-reset-button" type="button">Reset</button><span class="model-state is-unfitted" id="adaboost-status" role="status" aria-live="polite">Ready · equal sample weights</span></div>
+              <div class="adaboost-transport-row"><button class="button button-secondary" id="adaboost-previous-button" type="button" disabled>Previous</button><button class="button button-primary" id="adaboost-next-button" type="button">Next Step</button><button class="button button-secondary" id="adaboost-auto-button" type="button">Auto Run</button><span class="adaboost-phase-readout" id="adaboost-phase-readout" aria-live="polite">Round 1 / 5 · Fit Stump</span></div>
+            </section>
+
+            <section class="experiment-section visualization-section" aria-labelledby="adaboost-visualization-heading">
+              <div class="section-heading-row"><h2 id="adaboost-visualization-heading">Weighted observations and stumps</h2><span class="section-hint">Point size reflects sample weight; rings mark current stump mistakes.</span></div>
+              <div class="plot-surface"><svg id="adaboost-plot" class="adaboost-plot" viewBox="0 0 800 500" role="img" aria-labelledby="adaboost-plot-title adaboost-plot-description" preserveAspectRatio="xMidYMid meet"><title id="adaboost-plot-title">AdaBoost weighted classification plot</title><desc id="adaboost-plot-description">A two-class weighted training set with equal sample weights before the first decision stump.</desc></svg></div>
+              <div class="plot-legend" aria-label="Plot legend"><span class="legend-item"><span class="legend-symbol class-a" aria-hidden="true"></span>Class A</span><span class="legend-item"><span class="legend-symbol class-b" aria-hidden="true"></span>Class B</span><span class="legend-item"><span class="legend-symbol adaboost-boundary" aria-hidden="true"></span>Current stump</span><span class="legend-item"><span class="legend-symbol adaboost-weight" aria-hidden="true"></span>Point size = sample weight</span><span class="legend-item"><span class="legend-symbol inference" aria-hidden="true">◆</span>Inference point</span></div>
+              <div class="ensemble-history" aria-labelledby="adaboost-ensemble-heading"><div class="ensemble-history-heading"><h3 id="adaboost-ensemble-heading">ENSEMBLE</h3><span>fitted weak learners</span></div><ol id="adaboost-history-list"></ol><p class="ensemble-history-empty" id="adaboost-history-empty">No weak learners fitted yet.</p></div>
+            </section>
+
+            <section class="metrics-section" aria-labelledby="adaboost-metrics-heading"><h2 class="sr-only" id="adaboost-metrics-heading">AdaBoost metrics</h2><div class="metric-strip"><div class="metric-item metric-item-primary"><span class="metric-label">Round</span><strong id="adaboost-metric-round">1 / 5</strong></div><div class="metric-item"><span class="metric-label">Current phase</span><strong id="adaboost-metric-phase">Fit Stump</strong></div><div class="metric-item"><span class="metric-label">Stump error</span><strong id="adaboost-metric-error">—</strong></div><div class="metric-item"><span class="metric-label">Stump weight <span class="math-inline">α</span></span><strong id="adaboost-metric-alpha">—</strong></div></div></section>
+
+            <section class="teaching-section" aria-labelledby="adaboost-happening-heading"><h2 id="adaboost-happening-heading">What's Happening?</h2><p id="adaboost-happening-copy" aria-live="polite">All observations start with equal weights. The first decision stump will find the lowest weighted error.</p></section>
+            <section class="formula-section" aria-labelledby="adaboost-formula-heading"><div><h2 id="adaboost-formula-heading">Formula</h2><p class="formula-intro" id="adaboost-formula-intro">Show only the calculation that belongs to the current boosting phase.</p></div><div class="formula-list"><div class="formula-line" id="adaboost-formula-initial"><span class="formula-symbol">Initial weights</span><code>wᵢ = 1 / n</code></div><div class="formula-line" id="adaboost-formula-error" hidden><span class="formula-symbol">Weighted error</span><code>errorₜ = Σ wᵢ I(yᵢ ≠ hₜ(xᵢ))</code></div><div class="formula-line" id="adaboost-formula-alpha" hidden><span class="formula-symbol">Stump importance</span><code>αₜ = η × ½ ln((1 − errorₜ) / errorₜ)</code></div><div class="formula-line" id="adaboost-formula-update" hidden><span class="formula-symbol">Weight update</span><code>wᵢ ← wᵢ exp(−αₜ yᵢ hₜ(xᵢ))</code></div><div class="formula-line" id="adaboost-formula-final" hidden><span class="formula-symbol">Final classifier</span><code>H(x) = sign(Σ αₜ hₜ(x))</code></div></div></section>
+
+            <section class="experiment-section inference-section" aria-labelledby="adaboost-inference-heading"><div class="section-heading-row"><div><h2 id="adaboost-inference-heading">Inference</h2><p class="section-copy">After one stump is fitted, switch modes and click the plot. Inference never retrains the ensemble.</p></div><span class="mode-label">Weighted vote on unseen input</span></div><div class="adaboost-mode-switch" role="group" aria-label="AdaBoost mode"><button class="button button-secondary is-active" id="adaboost-training-mode" type="button">Training</button><button class="button button-secondary" id="adaboost-inference-mode" type="button" disabled>Inference</button></div><p class="inline-status" id="adaboost-inference-status">Fit at least one stump to enable inference.</p><div class="adaboost-inference-details" id="adaboost-inference-details" aria-live="polite"></div></section>
+          </section>
+
           <section class="playground playground-screen clustering-screen" id="k-means" data-playground-section="k-means" aria-labelledby="kmeans-page-title" hidden>
             <header class="playground-header">
               <div><p class="eyebrow">Clustering</p><h1 id="kmeans-page-title">K-Means</h1><p class="playground-description">Watch K-Means alternate between assigning observations to the nearest centroid and updating centroid positions.</p></div>
@@ -428,6 +460,6 @@
       </div>
     </div>
 
-    <script type="module" src="js/app.js?v=20260915"></script>
+    <script type="module" src="js/app.js?v=20260916e"></script>
   </body>
 </html>

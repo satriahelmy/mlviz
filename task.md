@@ -113,10 +113,29 @@ Milestone 5 acceptance checks:
 - [x] Run responsive, keyboard, reduced-motion, projection-readability, and edge-case checks across all playgrounds.
 - [x] Confirm the complete app deploys as ordinary static files with no backend or build step.
 
+### Milestone 7 — AdaBoost Classification
+
+- [x] Add AdaBoost for binary 2D classification using deterministic decision stumps (depth = 1).
+- [x] Expose weak-learner count (1–10), learning rate, Reset, Previous, Next Step, and bounded Auto Run/Pause controls.
+- [x] Implement explicit Fit Stump → Evaluate → Calculate Stump Weight → Update Sample Weights → Next Round → Final Ensemble phases.
+- [x] Visualize weighted observations through point size, restrained misclassification rings, stump boundaries, and the final ensemble regions.
+- [x] Add compact fitted-stump history with selectable boundary inspection and deterministic phase-based teaching copy/formulas.
+- [x] Add secondary Training/Inference mode with per-stump votes, weighted vote totals, and a distinct inference marker.
+
+Milestone 7 acceptance checks:
+
+- [x] Equal weights begin at `1 / n`; the default first stump has weighted error `0.25` and identifies three understandable mistakes.
+- [x] Advancing one step never runs the entire algorithm; error, alpha, updated weights, ensemble history, and phase readout change at the intended transition.
+- [x] Updated weights remain normalized and finite; misclassified observations become visibly larger without overwhelming the plot.
+- [x] Previous restores exact state snapshots, Auto Run is bounded, and the final ensemble disables further training steps.
+- [x] Inference is enabled only after a stump is fitted and leaves weights, fitted stumps, and training observations unchanged.
+- [x] Static, 1920×1080, and mobile checks pass without new gradients, glassmorphism, dashboard KPI cards, or out-of-scope boosting algorithms.
+
 ## Current-slice technical decisions
 
 - Use ES modules with no third-party dependencies.
 - Keep regression math in `js/core/math.js` and the playground state/rendering in `js/playgrounds/linear-regression.js`.
+- Keep AdaBoost stump search, weighted error, alpha, sample-weight updates, and ensemble voting in `js/core/adaboost.js`; keep its state, phase history, rendering, and inference UI in `js/playgrounds/adaboost.js`.
 - Use a viewBox-based SVG so the chart remains responsive while preserving the data coordinate system.
 - Treat the initial line as a useful teaching state, but mark inference as available only after an explicit fit action.
 - Use a shared diamond inference marker and a separate visual treatment for training observations.
@@ -245,17 +264,18 @@ Complete. The current project now includes a K-Means playground with explicit ph
 
 ### Status
 
-Complete. The V1 shell and all six implemented playgrounds passed the integration and quality pass. Gradient Descent remains intentionally removed.
+Complete. The V1 shell and all seven implemented playgrounds passed the integration and quality pass. Gradient Descent remains intentionally removed.
 
 ### Checks performed
 
-- [x] Navigation exposes exactly six completed playgrounds with matching screens and active navigation state.
+- [x] Navigation exposes exactly seven completed playgrounds with matching screens and active navigation state.
 - [x] DOM audit confirms every playground has its required primary controls, plot, current-state metrics, deterministic explanation, formula, and secondary inference section.
 - [x] Linear Regression browser check at 1920×1080 confirmed 460px visualization height, primary MSE, fitted/stale status, immediate MSE response, and keyboard slider control.
+- [x] AdaBoost browser check at 1920×1080 confirmed a 460px responsive plot, phase-linked weighted observations, compact ensemble history, final weighted regions, and fixed inference mode.
 - [x] K-Means browser check confirmed Initialize → Assign → Update → Converged → Inference, WCSS/movement readouts, fixed-centroid distance detail, K=5 safety, and phase-linked teaching copy.
 - [x] Mobile browser check at 390×844 confirmed Menu drawer, Escape/navigation close behavior, responsive plots, and no horizontal overflow.
-- [x] Static checks passed for JavaScript syntax, reduced-motion CSS, restrained styling, production labels, and all six screen IDs.
-- [x] Apache/XAMPP HTTP smoke checks returned 200 for the HTML, CSS, app module, and K-Means module.
+- [x] Static checks passed for JavaScript syntax, reduced-motion CSS, restrained styling, production labels, and all seven screen IDs.
+- [x] Apache/XAMPP HTTP smoke checks returned 200 for the HTML, CSS, app module, and AdaBoost module.
 
 ### Follow-up
 
@@ -283,3 +303,26 @@ Complete. The approved scientific-tool visual direction is preserved; this pass 
 - [x] JavaScript syntax checks passed after the refinement pass.
 - [x] No gradients, glassmorphism, large shadows, or development labels were introduced.
 - [x] Browser interaction verification completed at 1920×1080 and 390×844 through the XAMPP-served localhost page; navigation, responsive plot sizing, fit, MSE updates, and model status were confirmed.
+
+## AdaBoost Classification completion notes
+
+### Status
+
+Complete. AdaBoost is now available under Classification as a focused, step-by-step teaching playground. The existing shell, typography, spacing, restrained borders, and scientific-tool visual language were preserved.
+
+### Files created/changed
+
+- `index.html` — added the AdaBoost navigation item and semantic playground markup.
+- `css/app.css` — added responsive AdaBoost plot, weighted-point, stump, ensemble, transport, history, and inference styling without gradients or heavy cards.
+- `js/app.js` — bootstrapped AdaBoost and added its document title mapping.
+- `js/core/adaboost.js` — added deterministic stump candidate search, weighted evaluation, alpha calculation, normalized weight updates, and ensemble voting.
+- `js/playgrounds/adaboost.js` — added phase state machine, bounded history/auto-run, SVG rendering, deterministic teaching copy/formulas, stump inspection, and fixed inference mode.
+- `task.md` — recorded the AdaBoost milestone and acceptance checks.
+
+### Checks performed
+
+- JavaScript syntax checks passed for the application, shared helpers, all playgrounds, and the new AdaBoost modules.
+- Core numeric smoke test passed: first stump error `0.25`, three initial mistakes, finite normalized weights, and one final training error after five stumps.
+- Browser verification passed at the XAMPP-served `http://localhost/mlviz/` URL: step transitions, weight emphasis, Previous, Auto Run/Pause, final ensemble, stump history selection, inference voting, and Reset.
+- Viewport checks passed at 1920×1080 with a 460px plot and at 390×844 without horizontal overflow; the viewport override was reset after testing.
+- Production scans confirm no Gradient Descent/Gradient Boosting UI, `REFERENCE PLAYGROUND`, `Reference slice · V1`, gradients, glassmorphism, or out-of-scope boosting implementation was introduced.

@@ -4,6 +4,7 @@ import { createKNNPlayground } from "./playgrounds/knn.js";
 import { createSVMPlayground } from "./playgrounds/svm.js";
 import { createDecisionTreePlayground } from "./playgrounds/decision-tree.js";
 import { createKMeansPlayground } from "./playgrounds/k-means.js";
+import { createAdaBoostPlayground } from "./playgrounds/adaboost.js?v=20260916e";
 
 const $ = (selector) => document.querySelector(selector);
 const $$ = (selector) => [...document.querySelectorAll(selector)];
@@ -90,6 +91,7 @@ function showPlayground(requestedId) {
     knn: "ML Visual Lab — K-Nearest Neighbors",
     svm: "ML Visual Lab — Linear SVM",
     "decision-tree": "ML Visual Lab — Decision Tree",
+    adaboost: "ML Visual Lab — AdaBoost",
     "k-means": "ML Visual Lab — K-Means",
   };
   document.title = titles[activeId] ?? titles["linear-regression"];
@@ -242,4 +244,35 @@ createKMeansPlayground({
   happeningCopy: $("#kmeans-happening-copy"),
   inferenceStatus: $("#kmeans-inference-status"),
   inferenceDetails: $("#kmeans-inference-details"),
+});
+
+createAdaBoostPlayground({
+  plot: $("#adaboost-plot"),
+  weakLearnersControl: $("#adaboost-weak-learners"),
+  weakLearnersValue: $("#adaboost-weak-learners-value"),
+  learningRateControl: $("#adaboost-learning-rate"),
+  learningRateValue: $("#adaboost-learning-rate-value"),
+  resetButton: $("#adaboost-reset-button"),
+  previousButton: $("#adaboost-previous-button"),
+  nextButton: $("#adaboost-next-button"),
+  autoButton: $("#adaboost-auto-button"),
+  trainingModeButton: $("#adaboost-training-mode"),
+  inferenceModeButton: $("#adaboost-inference-mode"),
+  status: $("#adaboost-status"),
+  phaseReadout: $("#adaboost-phase-readout"),
+  roundValue: $("#adaboost-metric-round"),
+  phaseValue: $("#adaboost-metric-phase"),
+  errorValue: $("#adaboost-metric-error"),
+  alphaValue: $("#adaboost-metric-alpha"),
+  historyList: $("#adaboost-history-list"),
+  historyEmpty: $("#adaboost-history-empty"),
+  happeningCopy: $("#adaboost-happening-copy"),
+  formulaIntro: $("#adaboost-formula-intro"),
+  formulaInitial: $("#adaboost-formula-initial"),
+  formulaError: $("#adaboost-formula-error"),
+  formulaAlpha: $("#adaboost-formula-alpha"),
+  formulaUpdate: $("#adaboost-formula-update"),
+  formulaFinal: $("#adaboost-formula-final"),
+  inferenceStatus: $("#adaboost-inference-status"),
+  inferenceDetails: $("#adaboost-inference-details"),
 });
