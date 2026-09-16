@@ -13,6 +13,7 @@ Available playgrounds:
 - **K-Nearest Neighbors** — select `K`, move the query point, and inspect the vote from the nearest neighbors.
 - **Linear SVM** — adjust the penalty `C`, view the decision boundary and margin, identify support vectors, and predict new points.
 - **Decision Tree** — select the maximum depth, build Gini-based splits, connect the data space to the tree view, and follow an inference path.
+- **AdaBoost** — train weighted decision stumps step by step, inspect misclassified observations and stump importance, then combine the stumps with a weighted vote.
 - **K-Means** — run the initialize → assign → update phases step by step, monitor WCSS and centroid movement, and try inference after convergence.
 
 Shared interface features:
@@ -23,6 +24,7 @@ Shared interface features:
 - a navigation drawer on small screens;
 - keyboard-accessible controls;
 - state-based dynamic explanations;
+- explicit algorithm phases with Previous, Next Step, and bounded Auto Run/Pause where iterative teaching benefits from them;
 - `prefers-reduced-motion` support for reducing non-essential animations.
 
 ## Technology
@@ -32,7 +34,7 @@ Shared interface features:
 - Vanilla JavaScript with ES modules
 - SVG for plots and diagrams
 
-There is no backend, database, authentication, Python runtime, build system, or third-party dependency. The application uses small teaching datasets defined directly in the source code.
+There is no backend, database, authentication, Python runtime, build system, or third-party dependency. The application uses small teaching datasets defined directly in the source code. AdaBoost is implemented directly in browser-side JavaScript with depth-1 decision stumps; it does not use Gradient Boosting, Random Forest, or XGBoost.
 
 ## Running locally
 
@@ -75,6 +77,7 @@ Then open [http://localhost:8000](http://localhost:8000).
 │   ├── app.js                    # Navigation, search, drawer, and playground bootstrap
 │   ├── core/
 │   │   ├── math.js               # Shared mathematical functions
+│   │   ├── adaboost.js           # Weighted stump search, updates, and ensemble voting
 │   │   └── plot.js               # SVG scale, frame, tick, and text helpers
 │   └── playgrounds/
 │       ├── linear-regression.js
@@ -82,6 +85,7 @@ Then open [http://localhost:8000](http://localhost:8000).
 │       ├── knn.js
 │       ├── svm.js
 │       ├── decision-tree.js
+│       ├── adaboost.js
 │       └── k-means.js
 ├── PRD_ML_Visual_Lab_V1.md       # Product requirements
 ├── design_ML_Visual_Lab_V1.md    # Design specification
@@ -99,6 +103,8 @@ Get-ChildItem .\js -Recurse -Filter *.js | ForEach-Object { node --check $_.Full
 ```
 
 After changing the UI or interactions, run a browser smoke test to confirm that navigation, controls, plots, inference, and responsive layouts still work as expected.
+
+The current quality pass also verifies the XAMPP-served page at `1920×1080` and a `390×844` mobile viewport. The AdaBoost teaching sequence starts with equal sample weights, makes misclassified points more prominent, and ends with a fixed weighted-vote inference mode.
 
 ## V1 limitations
 
